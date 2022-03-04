@@ -20,7 +20,7 @@ class TransactionController extends Controller
         $transaction = Transaction::orderBy('time', 'DESC')->get();
         $response = [
             'message' => 'List transaction order by time',
-            'data' => $transaction
+            'data'    => $transaction
         ];
 
         return response()->json($response, Response::HTTP_OK);
@@ -35,9 +35,9 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'title' => ['required'],
+            'title'  => ['required'],
             'amount' => ['required', 'numeric'],
-            'type' => ['required', 'in:expense,revenue']
+            'type'   => ['required', 'in:expense,revenue']
         ]);
 
         if ($validator->fails()) {
@@ -48,7 +48,7 @@ class TransactionController extends Controller
             $transaction = Transaction::create($request->all());
             $response = [
                 'message' => 'Transaction created',
-                'data' => $transaction
+                'data'    => $transaction
             ];
 
             return response()->json($response, Response::HTTP_CREATED);
@@ -70,7 +70,7 @@ class TransactionController extends Controller
         $transaction = Transaction::findOrFail($id);
         $response = [
             'message' => 'Detail of transaction resource',
-            'data' => $transaction
+            'data'    => $transaction
         ];
 
         return response()->json($response, Response::HTTP_OK);
@@ -88,9 +88,9 @@ class TransactionController extends Controller
         $transaction = Transaction::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'title' => ['required'],
+            'title'  => ['required'],
             'amount' => ['required', 'numeric'],
-            'type' => ['required', 'in:expense,revenue']
+            'type'   => ['required', 'in:expense,revenue']
         ]);
 
         if ($validator->fails()) {
@@ -101,10 +101,11 @@ class TransactionController extends Controller
             $transaction->update($request->all());
             $response = [
                 'message' => 'Transaction updated',
-                'data' => $transaction
+                'data'    => $transaction
             ];
 
             return response()->json($response, Response::HTTP_OK);
+
         } catch (QueryException $e) {
             return response()->json([
                 'message' => 'Failed ' . $e->errorInfo
